@@ -1,0 +1,11 @@
+meta {
+  name: EliminarPaciente
+  type: http
+  seq: 1
+}
+
+delete {
+  url: http://localhost:3000/api/pacientes/{{idPaciente}}
+  body: none
+  auth: none
+}

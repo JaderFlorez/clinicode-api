@@ -1,0 +1,25 @@
+meta {
+  name: ActualizarPaciente
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:3000/api/pacientes/{{idPaciente}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "tipoDocumento": "CC",
+    "numeroDocumento": "9876543210",
+    "nombres": "Carlos Andrés",
+    "apellidos": "Gómez Torres",
+    "fechaNacimiento": "1995-09-23",
+    "telefono": "3209876543",
+    "correo": "carlos.gomez@example.com",
+    "direccion": "Carrera 45 #22-18, Medellín"
+  }
+  
+}

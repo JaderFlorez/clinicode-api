@@ -1,0 +1,11 @@
+meta {
+  name: Consultar CItas Paciente
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3000/api/citas/paciente/{{#Documento}}/citas
+  body: none
+  auth: inherit
+}

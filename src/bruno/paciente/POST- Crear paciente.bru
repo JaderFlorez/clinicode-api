@@ -1,0 +1,26 @@
+meta {
+  name: CrearPaciente
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/pacientes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "tipoDocumento": "CC",
+    "numeroDocumento": "1128483777",
+    "nombres": "Edison Andres",
+    "apellidos": "Jaramillo Ospina",
+    "fechaNacimiento": "1988-06-14",
+    "telefono": "3104456689",
+    "correo": "ediison.jaramillo@example.com",
+    "direccion": "Carrera 82 #47-11, La Cumbre"
+  }
+  
+  
+}

@@ -1,0 +1,19 @@
+meta:
+  name: Reprogramar Cita Médica
+  type: http
+request:
+  method: PUT
+  url: http://localhost:3000/api/citas-medicas/{{idCita}}/accion
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |
+      {
+        "accion": "reprogramar",
+        "fechaCita": "2025-11-05T10:30:00.000Z",
+        "idConsultorio": "b1234567-abcd-890f-1234-567890abcdef"
+      }
+variables:
+  idCita: "f2a65a77-1b34-48d1-9a3b-1234567890ab"

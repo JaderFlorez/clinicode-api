@@ -1,0 +1,15 @@
+meta {
+  name: EliminarMedico
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:3000/api/medicos/{{idMedico}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

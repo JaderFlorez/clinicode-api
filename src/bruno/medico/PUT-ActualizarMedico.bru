@@ -1,0 +1,29 @@
+meta {
+  name: ActualizarMedico
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:3000/api/medicos/{{idMedico}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id_medico": "7e75a5b0-a75b-42d8-8b67-f10f0081bcea",
+    "nombres": "Mariangel",
+    "apellidos": "Higuita",
+    "numero_licencia": "1122332506",
+    "id_especialidad": "0c1a79e3-2b07-4f52-a06e-c861ee4c4e97",
+    "telefono": "3113126322",
+    "correo": "mariangel.higuita@gmail.com"
+      
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

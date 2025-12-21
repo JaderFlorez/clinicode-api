@@ -1,0 +1,21 @@
+meta {
+  name: ActualizacionAsignacionMedicoConsultorio
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:3000/api/asignacion-medico-consultorio/{{idAsignacion}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "idMedico": "b63f1e5e-7bbf-44b4-9152-1d42e6bae9cf",
+    "idConsultorio": "d57994c8-fa0d-47c0-957b-8173e1439c2e",
+    "diasDisponibles": ["Lunes", "Miércoles", "Jueves", "Viernes"],
+    "horaInicio": "08:00",
+    "horaFin": "12:00"
+  }
+}

@@ -1,0 +1,28 @@
+meta {
+  name: Crear Cita Médica
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/citas-medicas
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "idPaciente": "7e757e3e-ab7c-4e98-880a-9d6733f6742a",
+    "idMedico": "449c2a17-482a-41ac-bf46-a9411f2ea037",
+    "idConsultorio": "4240c8ff-d998-48c0-8868-f1a5a4dccfa1",
+    "fechaCita": "2025-12-08T12:30:00Z",
+    "motivoCita": "Consulta general y control anual",
+    "estadoCita": "Programada"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+

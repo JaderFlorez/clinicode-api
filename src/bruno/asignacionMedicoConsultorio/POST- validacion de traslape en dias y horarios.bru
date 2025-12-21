@@ -1,0 +1,21 @@
+meta {
+  name: ValidacionTraslapeDiasHorarios
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/asignacion-medico-consultorio
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "idMedico": "fd89359f-2bb4-4bbd-82b4-6a1a2aa3cfe0",
+    "idConsultorio": "32de3586-258c-42c2-bf23-73233a96d777",
+    "diasDisponibles": ["Lunes", "Miércoles", "Viernes"],
+    "horaInicio": "09:00",
+    "horaFin": "12:00"
+  }
+}
