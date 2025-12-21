@@ -1,4 +1,4 @@
-# Clinicode V2
+# Clinicode-api
 
 
 Este proyecto es la API backend para el **Sistema Clínico**, desarrollado con **Node.js**, **TypeScript** y el framework **Fastify**. Utiliza **Supabase** como servicio de base de datos y autenticación.
