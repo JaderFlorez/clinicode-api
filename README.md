@@ -1,104 +1,104 @@
-# Clinicode-api
+# Clinicode API
 
+API REST backend para la gestión de un sistema clínico. Permite administrar pacientes, médicos, consultorios y citas médicas, con validación de traslapes de horarios y estados de cita.
 
-Este proyecto es la API backend para el **Sistema Clínico**, desarrollado con **Node.js**, **TypeScript** y el framework **Fastify**. Utiliza **Supabase** como servicio de base de datos y autenticación.
+Desarrollado como proyecto práctico aplicando **arquitectura hexagonal**, con énfasis en separación de responsabilidades, testabilidad y desacoplamiento del framework y la base de datos.
 
-## Configuración del Proyecto
+## Stack tecnológico
 
-Sigue estos pasos para clonar el repositorio y configurar el proyecto en tu entorno local.
+| Capa | Tecnología |
+|---|---|
+| Lenguaje | TypeScript |
+| Runtime | Node.js 18+ |
+| Framework | Fastify 5 |
+| Base de datos | PostgreSQL via Supabase |
+| Validación | Zod |
+| Pruebas | Jest + Supertest |
+| Cliente API | Bruno |
 
-### 1. Requisitos Previos
+## Arquitectura
 
-Asegúrate de tener instalado lo siguiente:
+El proyecto sigue el patrón **Ports and Adapters (Hexagonal Architecture)**:
 
-*   **Node.js** (versión recomendada: 18 o superior)
-*   **npm** (se instala con Node.js)
-*   **Git**
-
-### 2. Clonación del Repositorio
-
-Clona el repositorio a tu máquina local usando Git:
-
-```bash
-git clone https://github.com/Inexsu-Coordinadora/Clinicode.git
+```
+src/
+├── core/
+│   ├── dominio/          # Entidades, interfaces de repositorios
+│   ├── aplicacion/       # Casos de uso (lógica de negocio)
+│   └── infraestructura/  # Repositorios Supabase, esquemas, cliente DB
+├── presentacion/         # Controladores y rutas Fastify
+└── common/               # Configuración, errores, códigos HTTP
 ```
 
-### 3. Instalación de Dependencias
+La lógica de negocio no tiene dependencias de Fastify ni de Supabase. Cambiar el framework o la base de datos no afecta el núcleo del sistema.
 
-Una vez dentro del directorio del proyecto, instala todas las dependencias necesarias:
+## Entidades principales
+
+- **Paciente** — identificación, datos de contacto
+- **Médico** — especialidad, número de licencia
+- **Consultorio** — ubicación, disponibilidad por día y hora
+- **Asignación médico-consultorio** — con validación de traslapes
+- **Cita médica** — estados: `Programada`, `Atendida`, `Cancelada`
+
+## Instalación
 
 ```bash
+git clone https://github.com/JaderFlorez/clinicode-api.git
+cd clinicode-api
 npm install
 ```
 
-### 4. Configuración de Variables de Entorno
+Crea un archivo `.env` en la raíz:
 
-El proyecto utiliza el paquete `dotenv` para gestionar las variables de entorno. Necesitas crear un archivo llamado `.env` en la raíz del proyecto.
-
-**`.env`**
-
-```
-# Configuración de Supabase
-# Debes obtener estos valores desde el panel de control de tu proyecto Supabase
-SUPABASE_URL="[TU_URL_DE_PROYECTO_SUPABASE]"
-SUPABASE_ANON_KEY="[TU_CLAVE_ANON_SUPABASE]"
-
-# Otras variables de entorno necesarias para el proyecto (si las hay)
-# ...
+```env
+SUPABASE_URL=tu_url_de_supabase
+SUPABASE_ANON_KEY=tu_clave_anon
 ```
 
-> **Importante:** El proyecto utiliza `supabase-js` para interactuar con la base de datos. Asegúrate de que tu proyecto Supabase esté configurado y que las credenciales sean correctas.
-
-### 5. Configuración de la Base de Datos (Migraciones)
-
-El proyecto requiere una estructura de base de datos específica. Las migraciones SQL definen las tablas y relaciones necesarias.
-
-**Tecnología de Base de Datos:** La estructura SQL proporcionada (`migraciones.sql`) es compatible con **PostgreSQL** (el motor de base de datos de Supabase), incluyendo el uso del tipo `uuid` y `ENUM`.
-
-#### 5.1. Aplicar Migraciones
-
-Debes ejecutar el contenido del archivo `migraciones.sql` en tu base de datos de Supabase.
-
-1.  Accede al panel de control de tu proyecto Supabase.
-2.  Navega a la sección **SQL Editor** (o similar).
-3.  Copia y pega todo el contenido del archivo `migraciones.sql` en el editor.
-4.  Ejecuta el script para crear las tablas: `pacientes`, `especialidades`, `medicos`, `consultorios`, `disponibilidad_consultorio` y `citas_medicas`, junto con sus respectivas claves foráneas.
-
-### 6. Ejecución del Proyecto
-
-El proyecto ofrece dos modos de ejecución: desarrollo y producción.
-
-#### Modo Desarrollo
-
-Para ejecutar el proyecto en modo desarrollo con recarga automática (hot-reload) usando `ts-node`:
+Ejecuta las migraciones en tu proyecto Supabase (SQL Editor):
 
 ```bash
-npm run dev
+# Pega el contenido de migraciones/migraciones.sql en el editor SQL de Supabase
 ```
 
-El servidor se iniciará y estará escuchando en el puerto configurado (por defecto, Fastify usa el puerto `3000` a menos que se configure lo contrario).
+## Scripts disponibles
 
-#### Modo Producción
+```bash
+npm run dev          # Desarrollo con hot-reload
+npm run build        # Compilar TypeScript
+npm start            # Producción
+npm test             # Todas las pruebas
+npm run unit-test    # Solo pruebas unitarias
+npm run integration-test  # Solo pruebas de integración
+```
 
-Para compilar y ejecutar el proyecto para producción:
+## Endpoints disponibles
 
-1.  **Compilar el código TypeScript a JavaScript:**
-    ```bash
-    npm run build
-    ```
-    Esto generará los archivos JavaScript en el directorio `dist/`.
+| Método | Ruta | Descripción |
+|---|---|---|
+| POST | `/pacientes` | Crear paciente |
+| GET | `/pacientes` | Listar pacientes |
+| GET | `/pacientes/:id` | Obtener por ID |
+| PUT | `/pacientes/:id` | Actualizar |
+| DELETE | `/pacientes/:id` | Eliminar |
+| POST | `/medicos` | Crear médico |
+| GET | `/medicos` | Listar médicos |
+| POST | `/consultorios` | Crear consultorio |
+| POST | `/asignacion-medico-consultorio` | Asignar médico con validación de traslape |
+| POST | `/citas` | Crear cita médica |
+| PUT | `/citas/:id/reprogramar` | Reprogramar cita |
 
-2.  **Iniciar el servidor de producción:**
-    ```bash
-    npm start
-    ```
+Colección completa de pruebas disponible en `src/bruno/`.
 
-## Documentación
+## Documentación técnica
 
-La documentación técnica se encuentra en la carpeta `docs/`:
+- [Visión general del sistema](docs/overview.md)
+- [Arquitectura y decisiones técnicas](docs/arquitectura.md)
+- [Modelo de base de datos](docs/base-de-datos.md)
+- [Pruebas de endpoints](docs/pruebas.md)
 
-- [Visión general](docs/overview.md)
-- [Arquitectura](docs/arquitectura.md)
-- [Base de datos](docs/base-de-datos.md)
-- [Pruebas](docs/pruebas.md)
+## Autor
 
+**Jader Andrés Flórez López**  
+Backend Developer | Medellín, Colombia  
+[LinkedIn](https://www.linkedin.com/in/jader-florez) · [GitHub](https://github.com/JaderFlorez)
